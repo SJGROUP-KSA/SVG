@@ -1,12 +1,12 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
- "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
-<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+<svg version="1.2" baseProfile="tiny-ps" xmlns="http://www.w3.org/2000/svg"
  width="11511.000000pt" height="11111.000000pt" viewBox="0 0 11511.000000 11111.000000"
  preserveAspectRatio="xMidYMid meet">
+  
+  <title>SJ Group - MEP and Fire Safety Solutions</title>
 
-<g transform="translate(0.000000,11111.000000) scale(0.100000,-0.100000)"
-fill="#003366" stroke="#FDD835">
+  <g transform="translate(0.000000,11111.000000) scale(0.100000,-0.100000)"
+  fill="#003366" stroke="#FDD835">
 <path d="M56695 102353 c-5782 -99 -11465 -1261 -16787 -3432 -1533 -625
 -3107 -1368 -4543 -2143 -5984 -3233 -11166 -7694 -15255 -13133 -2332 -3101
 -4287 -6516 -5776 -10087 -2120 -5084 -3306 -10426 -3544 -15958 -31 -725 -35
