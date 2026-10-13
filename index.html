@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0c1829">
+<meta name="description" content="Private, local-first strategy and account management dashboard for Last War: Survival.">
+<title>Last War · Command Center</title>
+<style>
+:root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:#e8f2fa;background:#0b1422;font-synthesis:none}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 75% -20%,#1c3451 0,transparent 55%),#0b1422;min-height:100vh}
+button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:#8fe2d9}.app{display:grid;grid-template-columns:240px minmax(0,1fr);min-height:100vh}
+aside{background:#0d1c2d;border-right:1px solid #25405a;padding:26px 16px;position:sticky;top:0;align-self:start;height:100vh;overflow:auto}.brand{display:flex;align-items:center;gap:12px;margin:0 8px 36px}.crest{width:44px;height:44px;border:1px solid #ffcf80;border-radius:12px;display:grid;place-items:center;color:#ffe3ab;background:#2f2b25;font-size:24px}.brand strong{font-size:16px;letter-spacing:.11em}.brand small{display:block;color:#93aabb;font-size:10px;letter-spacing:.15em;margin-top:4px}
+nav{display:grid;gap:5px}nav button{border:1px solid transparent;text-align:left;padding:12px 13px;border-radius:11px;background:transparent;color:#a9bccd;display:flex;align-items:center;gap:11px}nav button:hover{background:#152c42;color:#fff}nav button.active{background:linear-gradient(90deg,#155b67,#19364a);color:#e8ffff;border-color:#28717b}nav .ico{font-size:18px;width:23px;text-align:center}.side-note{font-size:12px;line-height:1.7;color:#89a4b7;margin:30px 9px}.side-note b{color:#eed19b}
+main{min-width:0;padding:28px clamp(16px,3vw,44px) 55px}.top{display:flex;justify-content:space-between;gap:15px;align-items:center;margin-bottom:29px}.eyebrow{font-size:11px;color:#6bd5cd;text-transform:uppercase;letter-spacing:.2em;font-weight:800}.top h1{margin:4px 0 0;font-weight:760;font-size:clamp(25px,3.5vw,36px);letter-spacing:-.035em}.top p{color:#8fa8ba;margin:8px 0 0}.pill{border:1px solid #30516a;padding:8px 11px;border-radius:30px;font-size:12px;color:#b2cbd8;white-space:nowrap}
+.grid{display:grid;gap:16px}.kpis{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:18px}.split{grid-template-columns:1.2fr 1fr;align-items:start}.panel,.stat{background:linear-gradient(160deg,#14273b,#102032);border:1px solid #274159;border-radius:17px;padding:20px;min-width:0;box-shadow:0 8px 25px #0002}.stat{padding:18px 20px}.stat span{font-size:12px;color:#91adbf}.stat strong{display:block;font-size:clamp(20px,2.6vw,30px);letter-spacing:-.045em;margin:9px 0 4px}.stat small{font-size:11px;color:#76cfc9}.panel h2{font-size:16px;margin:0 0 14px;letter-spacing:-.01em}.panel h3{font-size:14px;margin:16px 0 7px}.muted{color:#93adbf}.tiny{font-size:12px}.notice{padding:12px 15px;border:1px solid #386173;background:#133144;border-radius:12px;color:#c9e4ed;line-height:1.55;font-size:13px}.warning{border-color:#8c6940;background:#322c22;color:#f6d9a6}.stack{display:grid;gap:13px}.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}.field{display:grid;gap:6px;min-width:0}.field label{color:#aac0ce;font-size:12px}.field input,.field select,.field textarea{width:100%;background:#0a1a2a;color:#ecf7ff;border:1px solid #33536b;border-radius:9px;padding:10px 11px;min-height:41px;outline:none}.field input:focus,.field select:focus,.field textarea:focus{border-color:#57cbbf;box-shadow:0 0 0 2px #3fbba62a}.field textarea{resize:vertical;min-height:80px}.form-row{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin-top:5px}.btn{background:#1c4050;border:1px solid #376177;border-radius:10px;color:#d5f4f4;padding:10px 13px;font-weight:650}.btn:hover{filter:brightness(1.2)}.btn.primary{background:#f1c777;color:#152333;border-color:#f1c777}.btn.danger{border-color:#8d4e53;background:#4d2936;color:#ffe1e3}.btn.small{font-size:12px;padding:6px 9px}.inline-select{min-height:32px;border:1px solid #39546a;border-radius:8px;background:#10283b;color:#eff6fc;padding:5px}.headrow{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px}.headrow h2{margin:0}.badge{padding:4px 9px;border-radius:50px;background:#26463f;color:#aff9d3;font-size:11px}.badge.amber{background:#52412d;color:#ffdd99}.badge.blue{background:#203e59;color:#b7dfff}.table-wrap{overflow-x:auto}.table{border-collapse:collapse;width:100%;font-size:12px}.table th{color:#8baab9;text-align:left;white-space:nowrap;font-weight:600;padding:11px 9px;border-bottom:1px solid #3a5165}.table td{border-bottom:1px solid #243d51;padding:11px 9px;vertical-align:middle}.table tr:last-child td{border-bottom:0}.table td strong{color:#e8f5f8}.table .actions{white-space:nowrap}.meter{height:8px;background:#24364b;border-radius:30px;overflow:hidden}.meter>i{display:block;height:100%;border-radius:30px;background:linear-gradient(90deg,#39a8a8,#d8c177)}.callout{padding:14px;border:1px solid #386376;border-radius:12px;background:#0e2c3b;display:grid;gap:7px;font-size:13px;line-height:1.55}.callout b{color:#ffe0a1}.metric-list{display:grid;gap:12px}.metric-line{display:grid;gap:5px}.metric-line div:first-child{display:flex;justify-content:space-between;gap:10px;color:#a7c0ce;font-size:13px}.tasks{display:grid;gap:7px}.check-item{display:flex;gap:10px;align-items:flex-start;border-bottom:1px solid #284157;padding:9px 0;color:#dae8ed;font-size:13px;line-height:1.5}.check-item:last-child{border:0}.check-item input{accent-color:#57bbae;width:16px;height:16px;flex-shrink:0;margin-top:2px}.done{text-decoration:line-through;color:#7895a5}.daytabs{display:flex;flex-wrap:wrap;gap:7px}.daytabs button{background:#15283b;color:#adc3d0;border:1px solid #33516c;padding:9px 11px;border-radius:9px}.daytabs button.active{background:#1a625f;border-color:#58c6b9;color:white}.day-info{margin-top:17px}.day-info h3{font-size:19px;color:#f0d399;margin:0 0 7px}.day-info p{color:#a2becc;font-size:13px;line-height:1.65}.positive{color:#8ee1c4}.negative{color:#ffafab}.empty{padding:20px;text-align:center;border:1px dashed #39556b;border-radius:11px;color:#95afbf;font-size:13px;line-height:1.6}.section{display:none}.section.active{display:block}.hint{font-size:12px;color:#92afbc;line-height:1.6}.stamp{color:#a3b6c6;font-size:12px;line-height:1.55}.rank-chart{width:100%;height:auto;max-height:235px;background:#0c1d2e;border:1px solid #2c4862;border-radius:11px}.legend{display:flex;gap:15px;color:#9eb9c8;font-size:12px}.legend b{display:inline-block;width:12px;height:4px;border-radius:2px;vertical-align:middle;margin-right:5px;background:#47d2c0}.legend .gold b{background:#f3c977}.source{font-size:12px;color:#a9bfc9;line-height:1.65}.source a{overflow-wrap:anywhere}
+@media(max-width:980px){.kpis{grid-template-columns:repeat(2,1fr)}.split{grid-template-columns:1fr}.three{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){.app{display:block}aside{height:auto;position:static;padding:12px;border-right:0;border-bottom:1px solid #25405a}.brand{margin:0 0 10px}.brand strong{font-size:13px}.crest{width:35px;height:35px;font-size:19px}nav{display:flex;overflow:auto;gap:5px}nav button{white-space:nowrap;padding:8px 10px;font-size:12px}nav .ico{font-size:15px;width:auto}.side-note{display:none}main{padding:19px 14px 40px}.top{align-items:flex-start}.top h1{font-size:25px}.pill{font-size:10px}.two,.three{grid-template-columns:1fr}.panel,.stat{padding:15px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside>
+  <div class="brand"><div class="crest">✦</div><div><strong>LAST WAR</strong><small>COMMAND CENTER / V1</small></div></div>
+  <nav aria-label="Management sections">
+    <button class="active" data-view="dashboard"><span class="ico">◈</span>Overview</button>
+    <button data-view="account"><span class="ico">⚙</span>Account</button>
+    <button data-view="operations"><span class="ico">▤</span>Upgrade planner</button>
+    <button data-view="heroes"><span class="ico">★</span>Hero roster</button>
+    <button data-view="inventory"><span class="ico">◉</span>Inventory</button>
+    <button data-view="vs"><span class="ico">⚔</span>VS war room</button>
+    <button data-view="ranking"><span class="ico">↗</span>Rank tracker</button>
+    <button data-view="backup"><span class="ico">⬡</span>Data & guides</button>
+  </nav>
+  <div class="side-note"><b>FAIR PLAY</b><br>Your data stays in this browser. This tool does not log into the game, run bots, or spend resources. Keep backups.</div>
+</aside>
+<main>
+<header class="top"><div><div class="eyebrow">Account intelligence · manual data</div><h1 id="pageTitle">Strategic Overview</h1><p id="pageSub">Run the account like an operations center.</p></div><span class="pill" id="saveState">● Saved locally</span></header>
+<div class="section active" id="view-dashboard">
+  <div class="grid kpis" id="kpis"></div>
+  <div class="grid split">
+    <div class="stack">
+      <div class="panel"><div class="headrow"><h2>Priority briefing</h2><span class="badge blue">Dynamic</span></div><div id="briefing" class="stack"></div></div>
+      <div class="panel"><div class="headrow"><h2>Highest-value upcoming actions</h2><button class="btn small" data-view="operations">Manage queue →</button></div><div id="nextActions"></div></div>
+    </div>
+    <div class="stack">
+      <div class="panel"><div class="headrow"><h2>Today's discipline</h2><span id="localDay" class="badge"></span></div><p class="hint">Personal daily checklist, using device date. Your game server resets on its own schedule.</p><div id="dailyChecklist" class="tasks"></div></div>
+      <div class="panel"><h2>Next strategic focus</h2><div id="focusCard" class="callout"></div></div>
+    </div>
+  </div>
+</div>
+<div class="section" id="view-account">
+ <div class="grid split">
+  <div class="panel">
+   <h2>Commander profile</h2>
+   <p class="hint">Fill in values from your game account. Leave unknown values at zero; the dashboard will not invent them.</p>
+   <div class="two" id="profileFields"></div>
+  </div>
+  <div class="stack">
+   <div class="panel"><h2>Commander's objective</h2><div class="notice">The target is Rank #1 <b>on your server</b>. Power alone is not proof of combat superiority or eventual first place. Track the current leader's power, your own growth, and event performance.</div></div>
+   <div class="panel"><h2>Recommended system of work</h2><div class="stack tiny muted"><div>1. Keep available construction and research queues working.</div><div>2. Prioritize the HQ gate and one powerful primary squad.</div><div>3. Plan upgrades before opening scarce resources.</div><div>4. Double-dip on VS and Arms Race where the in-game rules align.</div><div>5. Record a power and rank snapshot every day.</div></div></div>
+  </div>
+ </div>
+</div>
+<div class="section" id="view-operations">
+ <div class="grid split">
+  <div class="panel">
+   <h2>Plan a building, research, drone or training action</h2>
+   <form id="taskForm" class="stack">
+    <input type="hidden" name="id" value="">
+    <div class="two"><div class="field"><label for="taskName">Upgrade / research name</label><input required maxlength="100" id="taskName" name="name" placeholder="e.g. HQ prerequisite: Tech Center"></div><div class="field"><label for="taskType">Category</label><select id="taskType" name="type"><option>Building</option><option>Research</option><option>Hero</option><option>Drone</option><option>Troops</option><option>Alliance</option><option>Other</option></select></div></div>
+    <div class="three"><div class="field"><label>Impact (1–10)</label><input name="impact" type="number" min="1" max="10" step="1" value="8" required></div><div class="field"><label>Hours / effort</label><input name="hours" type="number" min="0" step=".5" value="24"></div><div class="field"><label>Estimated coin cost (M)</label><input name="cost" type="number" min="0" step=".1" value="0"></div></div>
+    <div class="two"><div class="field"><label>Target / level</label><input name="target" maxlength="80" placeholder="e.g. Level 27"></div><div class="field"><label>Due date</label><input name="due" type="date"></div></div>
+    <div class="field"><label>Notes / prerequisites</label><textarea name="notes" maxlength="700" placeholder="What blocks the upgrade? What is the resource plan?"></textarea></div>
+    <div class="form-row"><button type="submit" class="btn primary">Save to upgrade queue</button><button type="button" class="btn" id="cancelTask" data-action="cancel-task">Clear form</button></div>
+    <p class="hint">Priority score is a planning heuristic: higher estimated impact and lower effort rank first. It is not an in-game power prediction.</p>
+   </form>
+  </div>
+  <div class="panel"><h2>Upgrade strategy</h2><div id="opsGuidance" class="stack"></div></div>
+ </div>
+ <div class="panel" style="margin-top:16px"><div class="headrow"><h2>Upgrade pipeline</h2><span class="badge" id="queueCount">0 items</span></div><div id="taskTable"></div></div>
+</div>
+<div class="section" id="view-heroes">
+ <div class="grid split">
+  <div class="panel">
+   <h2>Hero investment ledger</h2>
+   <form id="heroForm" class="stack">
+    <input type="hidden" name="id" value="">
+    <div class="two"><div class="field"><label>Hero name</label><input name="name" required maxlength="70" placeholder="From your roster"></div><div class="field"><label>Squad type</label><select name="type"><option>Tank</option><option>Aircraft</option><option>Missile</option><option>Other</option></select></div></div>
+    <div class="three"><div class="field"><label>Level</label><input name="level" type="number" min="0" max="999" value="1"></div><div class="field"><label>Stars</label><input name="stars" type="number" min="0" max="5" step=".1" value="0"></div><div class="field"><label>Power (M)</label><input name="power" type="number" min="0" step=".01" value="0"></div></div>
+    <div class="two"><div class="field"><label>Role</label><select name="role"><option>Frontline</option><option>Damage</option><option>Support</option><option>Other</option></select></div><div class="field"><label>Squad allocation</label><select name="squad"><option>Main squad</option><option>Squad 2</option><option>Squad 3</option><option>Reserve</option></select></div></div>
+    <div class="field"><label>Next investment</label><input name="next" maxlength="120" placeholder="Stars / gear / skills / exclusive weapon"></div>
+    <div class="form-row"><button class="btn primary" type="submit">Save hero</button><button class="btn" data-action="cancel-hero" type="button">Clear form</button></div>
+   </form>
+  </div>
+  <div class="panel"><h2>Squad investment rules</h2><div class="callout"><b>Concentrate first</b><span>Prioritize your primary five-hero squad before distributing scarce shards, skills and top-tier equipment across three squads.</span><b>Optimize roles</b><span>Balance a survivable frontline with damage output. Tank/Aircraft/Missile matchups, counters and your actual roster matter more than raw power alone.</span><b>Manual verification</b><span>Exact hero rankings, kits and exclusive weapons depend on season and server availability. Confirm their current abilities in game.</span></div></div>
+ </div>
+ <div class="panel" style="margin-top:16px"><div class="headrow"><h2>Tracked heroes</h2><span class="badge" id="heroCount"></span></div><div id="heroTable"></div></div>
+</div>
+<div class="section" id="view-inventory">
+ <div class="grid split">
+  <div class="panel"><h2>Available resources</h2><p class="hint">All values are manually entered. Values marked M mean millions of units (for example 45.5 = 45.5M).</p><div class="two" id="inventoryFields"></div><p class="hint">Edits save when you leave a field. Export a backup before clearing browser storage.</p></div>
+  <div class="stack"><div class="panel"><h2>Resource deployment</h2><div id="resourceGuidance" class="stack"></div></div><div class="panel"><h2>Spending discipline</h2><div class="notice warning">Buying packs does not guarantee Rank #1. Treat your in-game spending cap as a hard limit, and do not share game login details, cookies, tokens, or account credentials with third-party tools.</div></div></div>
+ </div>
+</div>
+<div class="section" id="view-vs">
+ <div class="panel"><div class="headrow"><h2>Alliance Duel — weekly war room</h2><span class="badge amber" id="vsWeek"></span></div>
+  <p class="hint">The usual sequence is Monday–Saturday with Sunday preparation. Actual scoring items, victory-point weights, event availability and reset time may vary: your live in-game VS screen is authoritative.</p>
+  <div class="daytabs" id="vsDays"></div>
+  <div class="day-info" id="vsContent"></div>
+ </div>
+ <div class="panel" style="margin-top:16px"><h2>War-room principles</h2><div class="three"><div class="callout"><b>Bank before the day</b><span>Hold event-specific materials until their scoring trigger; do not claim completions too early.</span></div><div class="callout"><b>Double-score carefully</b><span>Align construction, research, heroes or training with Arms Race windows where applicable.</span></div><div class="callout"><b>Shield and survive</b><span>Enemy Buster requires coordination. Avoid unnecessary troop losses and follow alliance leadership.</span></div></div></div>
+</div>
+<div class="section" id="view-ranking">
+ <div class="grid kpis" id="rankKPIs"></div>
+ <div class="grid split">
+  <div class="panel"><h2>Power race</h2><div id="rankChart"></div><p class="hint">Power figures use millions (M). This chart compares your reported power to your reported Rank #1 leader's power, not actual server data.</p></div>
+  <div class="panel">
+   <h2>Record a daily snapshot</h2>
+   <form id="snapshotForm" class="stack">
+    <div class="two"><div class="field"><label>Date</label><input type="date" name="date" required></div><div class="field"><label>Your rank</label><input type="number" name="rank" min="1" required placeholder="e.g. 84"></div></div>
+    <div class="two"><div class="field"><label>Your power (M)</label><input type="number" name="power" min="0" step=".01" required></div><div class="field"><label>Leader power (M)</label><input type="number" name="leader" min="0" step=".01" required></div></div>
+    <button type="submit" class="btn primary">Save snapshot and update profile</button>
+   </form>
+   <div id="rankForecast" style="margin-top:15px"></div>
+  </div>
+ </div>
+ <div class="panel" style="margin-top:16px"><div class="headrow"><h2>Power history</h2><span class="badge" id="snapshotCount"></span></div><div id="snapTable"></div></div>
+</div>
+<div class="section" id="view-backup">
+ <div class="grid split">
+  <div class="panel"><h2>Backup and migration</h2><div class="stack"><div class="notice">Your private game-account metrics are stored only in this browser's local storage. The public GitHub repository holds the application code, not your entries.</div><div class="form-row"><button class="btn primary" data-action="export">Export JSON backup</button><label class="btn" for="importFile" style="cursor:pointer">Import JSON backup</label><input id="importFile" type="file" accept=".json,application/json" style="display:none"></div><button class="btn danger" data-action="reset" style="justify-self:start">Erase local data</button><p class="hint">Do not store passwords, tokens, cookies or API keys here. Anyone using the same browser profile may access locally saved data.</p></div></div>
+  <div class="panel"><h2>Decision framework</h2><div class="stack"><div class="callout"><b>1 · Define</b><span>HQ, season, server, main squad, rank, rank leader.</span></div><div class="callout"><b>2 · Quantify</b><span>Resource bottlenecks, upgrade effort, hero allocation and daily power trajectory.</span></div><div class="callout"><b>3 · Execute</b><span>Protect queues and time rewards around the in-game event calendar.</span></div><div class="callout"><b>4 · Review</b><span>Check rank-gain trend weekly; adjust the plan rather than pursuing vanity power alone.</span></div></div></div>
+ </div>
+ <div class="panel" style="margin-top:16px"><h2>Research & rules</h2><div class="source">This independent fan tool is not affiliated with the game's publisher. Useful references: <a href="https://lastwar-h5.lastwargame.com/legal/20260827/terms_en.html" target="_blank" rel="noreferrer">official publisher's terms</a>, <a href="https://gamezoneacademy.com/mission-files/complete-research-guide/" target="_blank" rel="noreferrer">research prioritization</a>, <a href="https://lw-spy.com/blog/last-war-vs-days-schedule/" target="_blank" rel="noreferrer">VS schedule & caveats</a>, <a href="https://lastwarhub.com/en/base/" target="_blank" rel="noreferrer">base-development strategy</a>. Data for exact upgrade costs should be taken from your current game client.</div></div>
+</div>
+</main></div>
+<script>
+(function(){
+"use strict";
+var STORE="lastwar_command_center_v1", page="dashboard", vsDay=new Date().getDay(), dirty=false;
+var days=[
+ {short:"Sun",name:"Preparation",summary:"No normal VS scoring. Prepare tomorrow's claims and resource cycle.",items:["Review next week's VS and Arms Race requirements","Prepare radar claims and gathering returns for the server reset","Review HQ upgrade prerequisites and reserve resources","Arrange protection and alliance coordination"]},
+ {short:"Mon",name:"Radar Training",summary:"Usually focuses on radar, stamina, gathering and drone-related actions.",items:["Claim eligible radar missions during the VS window","Return scheduled gathering marches","Use qualifying drone data, parts or skill chip rewards","Check scoring categories before consuming saved supplies"]},
+ {short:"Tue",name:"Base Expansion",summary:"Usually favors building completion, construction and some other base activities.",items:["Complete planned building upgrades in the VS window","Use construction speedups where points justify their cost","Check eligible trucks, missions and survivor actions","Avoid spending a week's reserves on an unwinnable margin"]},
+ {short:"Wed",name:"Age of Science",summary:"Usually rewards technology research and some drone component rewards.",items:["Time valuable research completions","Use Valor Badges on the planned research path","Claim qualifying drone component chests","Look for an aligned Arms Race technology phase"]},
+ {short:"Thu",name:"Train Heroes",summary:"Usually centers on hero development resources.",items:["Spend saved shards on the primary squad first","Apply planned hero EXP and skill medals","Use eligible recruitment tickets","Check exclusive weapon progression before spending"]},
+ {short:"Fri",name:"Total Mobilization",summary:"Usually favors troop training, promotions and broad acceleration. Confirm live scoring.",items:["Execute scheduled troop-training or promotion waterfall","Apply eligible training or other speedups","Coordinate Arms Race timing for point efficiency","Keep enough defense and recovery resources for Saturday"]},
+ {short:"Sat",name:"Enemy Buster",summary:"Combat day. Server-specific rules, points and attack restrictions matter.",items:["Confirm opponent, targets and rules with alliance leaders","Activate a shield when defense is preferable","Plan healing and hospital capacity before combat","Record losses versus gains; avoid unfavorable fights"]}
+];
+var daily=["Check game server reset and today's VS scoring","Keep active research running","Keep construction working or identify its blocker","Collect high-value missions and alliance donations","Review stamina, troop training and defense","Confirm planned spending before using rare items"];
+var inv=[
+ ["food","Food","M"],["iron","Iron","M"],["coins","Coins / Gold","M"],["oil","Oil","M"],["valor","Valor Badges","units"],["shards","UR universal shards","units"],["drone","Drone parts","units"],["speedBuild","Construction speedups","hours"],["speedTech","Research speedups","hours"],["speedTrain","Training speedups","hours"],["speedGeneral","Universal speedups","hours"],["medals","Skill medals","units"]
+];
+var titles={dashboard:["Strategic Overview","Every decision should close the gap to the leader."],account:["Account Intelligence","Accurate inputs produce a useful plan."],operations:["Upgrade Planner","Organize buildings, research and long-term priorities."],heroes:["Hero Roster","Invest in the squad that actually wins battles."],inventory:["Resource Treasury","Hold and deploy materials at the right time."],vs:["Alliance Duel War Room","Score efficiently without sacrificing progress."],ranking:["Rank Tracker","Measure whether you are really closing the gap."],backup:["Data & Strategy","Keep control of your game data and decisions."]};
+function init(){return {version:1,profile:{name:"",server:"",alliance:"",season:"",hq:0,tech:0,power:0,rank:0,leader:0,budget:0,main:"Tank",reset:""},inventory:{},tasks:[],heroes:[],snapshots:[],dailyChecks:{},vsChecks:{}}}
+function load(){try{var t=JSON.parse(localStorage.getItem(STORE));if(!t||t.version!==1||!t.profile||!Array.isArray(t.tasks)||!Array.isArray(t.heroes)||!Array.isArray(t.snapshots))return init();return t}catch(e){return init()}}
+var data=load();
+function save(){try{localStorage.setItem(STORE,JSON.stringify(data));document.getElementById("saveState").textContent="● Saved locally";dirty=false}catch(e){document.getElementById("saveState").textContent="⚠ Storage unavailable";dirty=true}}
+function el(id){return document.getElementById(id)}
+function esc(v){return String(v==null?"":v).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function num(x){var n=Number(x);return Number.isFinite(n)?Math.max(0,n):0}
+function fmt(x,d){return num(x).toLocaleString(undefined,{maximumFractionDigits:d==null?2:d})}
+function id(){return "k"+Date.now().toString(36)+Math.random().toString(36).slice(2,8)}
+function today(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function week(){var d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()-(d.getDay()+6)%7);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function normalize(){data.profile=data.profile||{};data.inventory=data.inventory||{};data.dailyChecks=data.dailyChecks||{};data.vsChecks=data.vsChecks||{}}
+normalize();
+function stat(label,value,foot){return '<div class="stat"><span>'+esc(label)+'</span><strong>'+esc(value)+'</strong><small>'+esc(foot)+'</small></div>'}
+function empty(msg){return '<div class="empty">'+esc(msg)+'</div>'}
+function note(title,detail,cls){return '<div class="callout '+(cls||'')+'"><b>'+esc(title)+'</b><span>'+esc(detail)+'</span></div>'}
+function activeTasks(){return data.tasks.filter(function(t){return t.status==="Active"})}
+function pipeline(){return data.tasks.filter(function(t){return t.status!=="Done"}).sort(function(a,b){return score(b)-score(a)})}
+function score(t){var h=Math.max(.5,num(t.hours));var bonus=t.status==="Active"?1.15:1;return Math.round(100*num(t.impact)*bonus/(4+Math.sqrt(h)))}
+function getGap(){return Math.max(0,num(data.profile.leader)-num(data.profile.power))}
+function getGapPercent(){return num(data.profile.leader)>0?100*getGap()/num(data.profile.leader):null}
+function renderDashboard(){
+ var p=data.profile,gap=getGapPercent();
+ el("kpis").innerHTML=stat("Account power",p.power>0?fmt(p.power)+"M":"—","Manual entry")+
+  stat("Server rank",p.rank>0?"#"+fmt(p.rank,0):"—","Goal: #1 on your server")+
+  stat("Headquarters",p.hq>0?"Level "+fmt(p.hq,0):"—","Tech "+(p.tech||"not entered"))+
+  stat("Gap to leader",gap!=null?fmt(gap,1)+"%":"—",gap!=null?fmt(getGap())+"M behind":"Enter leader power");
+ var messages=[];
+ if(!p.server||!p.hq||!p.power||!p.rank)messages.push(["Start with a baseline","Enter your server, HQ, power and rank. A plan without a baseline is guesswork."]);
+ if(num(p.tech)&&num(p.hq)&&num(p.hq)-num(p.tech)>1)messages.push(["Tech Center bottleneck","Your Tech Center is more than one level below your HQ. Verify the next HQ gate and upgrade it if required."]);
+ if(data.heroes.filter(function(h){return h.squad==="Main squad"}).length<5)messages.push(["Build the main squad ledger","Track your five primary heroes before allocating scarce universal shards and high-tier gear."]);
+ if(!activeTasks().length)messages.push(["No active upgrade recorded","Put a construction or research activity into the Active state; avoid idle queues whenever resources and game rules permit."]);
+ if(!data.snapshots.length)messages.push(["No trend data yet","Record the first daily power/rank snapshot. One reading cannot establish whether the gap is closing."]);
+ if(gap!=null&&gap>30)messages.push(["Close the gap intelligently","Your reported power is materially below the leader. Prioritize efficient long-term growth rather than consuming all reserves for vanity power."]);
+ if(!messages.length)messages.push(["System online","Your baseline is populated. Execute the highest-value action, log results and revisit the plan daily."]);
+ el("briefing").innerHTML=messages.slice(0,4).map(function(x){return note(x[0],x[1])}).join("");
+ var actions=pipeline().slice(0,4);
+ el("nextActions").innerHTML=actions.length?'<div class="tasks">'+actions.map(function(t){return '<div class="check-item"><span style="font-size:20px;color:#f0ca81">◈</span><div><strong>'+esc(t.name)+'</strong><div class="hint">'+esc(t.type)+' · '+esc(t.status)+' · Priority '+score(t)+' · '+fmt(t.hours)+' hours estimated</div></div></div>'}).join("")+'</div>':empty("Your action pipeline is empty. Use Upgrade Planner to add a building, research or drone milestone.");
+ el("localDay").textContent=new Date().toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric"});
+ el("dailyChecklist").innerHTML=daily.map(function(t,i){var key=today()+":"+i,v=!!data.dailyChecks[key];return '<label class="check-item"><input type="checkbox" data-daily="'+i+'" '+(v?"checked":"")+'><span class="'+(v?"done":"")+'">'+esc(t)+'</span></label>'}).join("");
+ el("focusCard").innerHTML='<b>'+esc(days[vsDay].short+" · "+days[vsDay].name)+'</b><span>'+esc(days[vsDay].summary)+'</span><button class="btn small" data-view="vs" style="justify-self:start">Open war room →</button>';
+}
+var fields=[
+ ["name","Commander / account name","text","In-game display name"],
+ ["server","Server","text","e.g. 1200"],
+ ["alliance","Alliance","text","Optional"],
+ ["season","Season","text","e.g. Season 2"],
+ ["hq","HQ level","number","Current"],
+ ["tech","Tech Center level","number","Current"],
+ ["power","Account power (M)","number","e.g. 125.4"],
+ ["rank","Server rank","number","e.g. 98"],
+ ["leader","Rank #1 power (M)","number","e.g. 400.8"],
+ ["budget","Maximum monthly spend","number","In your own currency; optional"],
+ ["main","Primary squad type","select",""],
+ ["reset","Server reset note / time","text","e.g. 03:00 local"]
+];
+function renderAccount(){
+ el("profileFields").innerHTML=fields.map(function(f){var v=data.profile[f[0]]||"",input=f[2]==="select"?'<select data-profile="'+f[0]+'">'+["Tank","Aircraft","Missile","Mixed"].map(function(o){return '<option '+(v===o?"selected":"")+'>'+o+'</option>'}).join("")+'</select>':'<input data-profile="'+f[0]+'" type="'+f[2]+'" '+(f[2]==="number"?'min="0" step="any" ':'')+'value="'+esc(v)+'" placeholder="'+esc(f[3])+'">';return '<div class="field"><label>'+esc(f[1])+'</label>'+input+'</div>'}).join("");
+}
+function renderOps(){
+ var task=pipeline();
+ el("queueCount").textContent=data.tasks.length+" total";
+ el("opsGuidance").innerHTML=note("HQ path","Check the exact in-game prerequisite building list for the NEXT HQ, not a possibly outdated internet cost table.")+
+ note("Tech queues","Keep one research queue on durable speed/economy upgrades and focus other available queues on competitive milestones.")+
+ note("Combat objectives","Main-squad research and troop-tier unlocks generally offer more leverage than leveling low-impact buildings.")+
+ note("Resource gate","If costs exceed your actual available inventory, treat the action as blocked until you have a verified supply plan.");
+ el("taskTable").innerHTML=data.tasks.length?'<div class="table-wrap"><table class="table"><thead><tr><th>Action</th><th>Type</th><th>Status</th><th>Impact</th><th>Effort</th><th>Priority</th><th>Controls</th></tr></thead><tbody>'+data.tasks.slice().sort(function(a,b){return (a.status==="Done")-(b.status==="Done")||score(b)-score(a)}).map(function(t){return '<tr><td><strong>'+esc(t.name)+'</strong><div class="hint">'+esc(t.target||"")+(t.due?" · "+esc(t.due):"")+'</div>'+(t.notes?'<div class="hint">'+esc(t.notes)+'</div>':"")+'</td><td>'+esc(t.type)+'</td><td><select class="inline-select" data-task-status="'+esc(t.id)+'">'+["Planned","Active","Blocked","Done"].map(function(s){return '<option '+(t.status===s?"selected":"")+'>'+s+'</option>'}).join("")+'</select></td><td>'+fmt(t.impact,0)+'/10</td><td>'+fmt(t.hours)+'h</td><td><span class="badge blue">'+score(t)+'</span></td><td class="actions"><button class="btn small" data-action="edit-task" data-id="'+esc(t.id)+'">Edit</button> <button class="btn small danger" data-action="delete-task" data-id="'+esc(t.id)+'">×</button></td></tr>'}).join("")+'</tbody></table></div>':empty("No upgrades yet. Add the exact HQ prerequisite, research unlock or next major hero/drone upgrade.");
+}
+function resetTask(){el("taskForm").reset();el("taskForm").elements.id.value=""}
+function setForm(form,obj){Object.keys(obj).forEach(function(k){var x=form.elements.namedItem(k);if(x&&k!=="id")x.value=obj[k]==null?"":obj[k]});form.elements.id.value=obj.id}
+function saveTask(form){var f=form.elements;var t={id:f.id.value||id(),name:f.name.value.trim(),type:f.type.value,impact:Math.min(10,Math.max(1,num(f.impact.value))),hours:num(f.hours.value),cost:num(f.cost.value),target:f.target.value.trim(),due:f.due.value,notes:f.notes.value.trim(),status:"Planned"};if(!t.name)return;var old=data.tasks.find(function(x){return x.id===t.id});if(old)t.status=old.status;data.tasks=data.tasks.filter(function(x){return x.id!==t.id});data.tasks.push(t);save();renderAll();setPage("operations")}
+function renderHeroes(){
+ el("heroCount").textContent=data.heroes.length+" heroes";
+ var main=data.heroes.filter(function(h){return h.squad==="Main squad"}), mainPower=main.reduce(function(s,h){return s+num(h.power)},0);
+ el("heroTable").innerHTML='<p class="hint">Primary squad: '+main.length+' tracked heroes · '+fmt(mainPower)+'M reported hero power (not a full combat-power calculation).</p>'+
+ (data.heroes.length?'<div class="table-wrap"><table class="table"><thead><tr><th>Hero</th><th>Type</th><th>Role</th><th>Level / stars</th><th>Power</th><th>Next investment</th><th>Controls</th></tr></thead><tbody>'+data.heroes.slice().sort(function(a,b){return (b.squad==="Main squad")-(a.squad==="Main squad")||num(b.power)-num(a.power)}).map(function(h){return '<tr><td><strong>'+esc(h.name)+'</strong><div class="hint">'+esc(h.squad)+'</div></td><td>'+esc(h.type)+'</td><td>'+esc(h.role)+'</td><td>'+fmt(h.level,0)+' / '+fmt(h.stars,1)+'★</td><td>'+fmt(h.power)+'M</td><td>'+esc(h.next||"—")+'</td><td class="actions"><button class="btn small" data-action="edit-hero" data-id="'+esc(h.id)+'">Edit</button> <button class="btn small danger" data-action="delete-hero" data-id="'+esc(h.id)+'">×</button></td></tr>'}).join("")+'</tbody></table></div>':empty("Add your actual heroes. Do not assume every player has the same characters or season unlocks."));
+}
+function saveHero(form){var f=form.elements,h={id:f.id.value||id(),name:f.name.value.trim(),type:f.type.value,level:num(f.level.value),stars:Math.min(5,num(f.stars.value)),power:num(f.power.value),role:f.role.value,squad:f.squad.value,next:f.next.value.trim()};if(!h.name)return;data.heroes=data.heroes.filter(function(x){return x.id!==h.id});data.heroes.push(h);save();renderAll();setPage("heroes")}
+function renderInventory(){
+ el("inventoryFields").innerHTML=inv.map(function(i){return '<div class="field"><label>'+esc(i[1])+' ('+esc(i[2])+')</label><input data-inv="'+i[0]+'" type="number" min="0" step="any" value="'+esc(data.inventory[i[0]]||0)+'"></div>'}).join("");
+ var q=pipeline().filter(function(t){return t.cost>0});var m=q.reduce(function(s,t){return s+num(t.cost)},0);
+ el("resourceGuidance").innerHTML=note("Coin commitment",fmt(m)+"M coins of estimated commitments entered in the upgrade pipeline; remaining available: "+fmt(num(data.inventory.coins)-Math.min(num(data.inventory.coins),m))+"M.")+
+ note("Scarce resources","Reserve universal UR shards for confirmed primary-squad upgrades and Valor Badges for a researched technology path.")+
+ note("Time compression","Use speedups where construction, research, training and VS/Arms Race objectives overlap; don't zero out future defensive reserves.");
+}
+function renderVS(){
+ el("vsWeek").textContent="Week of "+week();
+ el("vsDays").innerHTML=days.map(function(x,i){return '<button data-vs-day="'+i+'" class="'+(i===vsDay?"active":"")+'">'+esc(x.short)+'</button>'}).join("");
+ var d=days[vsDay],k=week()+":"+vsDay+":",done=d.items.filter(function(x,i){return !!data.vsChecks[k+i]}).length;
+ el("vsContent").innerHTML='<div class="grid split"><div><h3>'+esc(d.name)+'</h3><p>'+esc(d.summary)+'</p><div class="tasks">'+d.items.map(function(t,i){var v=!!data.vsChecks[k+i];return '<label class="check-item"><input type="checkbox" data-vs-check="'+i+'" '+(v?"checked":"")+'><span class="'+(v?"done":"")+'">'+esc(t)+'</span></label>'}).join("")+'</div></div><div class="stack"><div class="callout"><b>Completion: '+done+"/"+d.items.length+'</b><div class="meter"><i style="width:'+(done/d.items.length*100)+'%"></i></div><span>Check activities only after completing them in your game client.</span></div><div class="notice warning">This dashboard follows your device's calendar, not live server time. Select the active in-game day manually if they differ.</div></div></div>';
+}
+function sortedSnaps(){return data.snapshots.slice().sort(function(a,b){return a.date.localeCompare(b.date)})}
+function renderRanking(){
+ var p=data.profile,gap=getGap(),perc=getGapPercent(),sn=sortedSnaps();
+ el("rankKPIs").innerHTML=stat("Rank",p.rank?"#"+fmt(p.rank,0):"—","Reported")+
+ stat("Power",p.power?fmt(p.power)+"M":"—","Your account")+
+ stat("Leader power",p.leader?fmt(p.leader)+"M":"—","Reported competitor")+
+ stat("Power deficit",p.leader?fmt(gap)+"M":"—",perc!=null?fmt(perc,1)+"% of leader":"Not enough data");
+ el("snapshotCount").textContent=sn.length+" entries";
+ el("snapTable").innerHTML=sn.length?'<div class="table-wrap"><table class="table"><thead><tr><th>Date</th><th>Your power (M)</th><th>Leader (M)</th><th>Gap (M)</th><th>Rank</th><th></th></tr></thead><tbody>'+sn.slice().reverse().map(function(s){return '<tr><td>'+esc(s.date)+'</td><td>'+fmt(s.power)+'</td><td>'+fmt(s.leader)+'</td><td>'+fmt(Math.max(0,s.leader-s.power))+'</td><td>#'+fmt(s.rank,0)+'</td><td><button class="btn small danger" data-action="delete-snapshot" data-id="'+esc(s.id)+'">×</button></td></tr>'}).join("")+'</tbody></table></div>':empty("No daily records. Add your first snapshot.");
+ if(sn.length<2){el("rankChart").innerHTML=empty("Save at least two snapshots on different dates to draw the trend.");el("rankForecast").innerHTML='<div class="notice">At least two snapshots on different dates are required for a trend estimate.</div>';return}
+ var highs=sn.map(function(s){return Math.max(num(s.power),num(s.leader))});var yMax=Math.max(1,Math.max.apply(null,highs)*1.12);var W=620,H=230,L=42,R=14,T=16,B=30;
+ function x(i){return L+i*(W-L-R)/Math.max(sn.length-1,1)}
+ function y(v){return H-B-num(v)/yMax*(H-B-T)}
+ function poly(key){return sn.map(function(s,i){return x(i).toFixed(1)+","+y(s[key]).toFixed(1)}).join(" ")}
+ var chart='<svg class="rank-chart" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Your power trend compared to reported leader power">';
+ [0,.25,.5,.75,1].forEach(function(r){var yy=y(yMax*r);chart+='<line x1="'+L+'" y1="'+yy+'" x2="'+(W-R)+'" y2="'+yy+'" stroke="#30465b" stroke-dasharray="4 5"></line><text x="5" y="'+(yy+4)+'" fill="#8aabc0" font-size="11">'+fmt(yMax*r,0)+'M</text>'});
+ chart+='<polyline fill="none" stroke="#f3c977" stroke-width="3" points="'+poly("leader")+'"></polyline><polyline fill="none" stroke="#47d2c0" stroke-width="3" points="'+poly("power")+'"></polyline><text x="'+L+'" y="'+(H-7)+'" fill="#8aabc0" font-size="11">'+esc(sn[0].date)+'</text><text x="'+(W-R)+'" y="'+(H-7)+'" fill="#8aabc0" font-size="11" text-anchor="end">'+esc(sn[sn.length-1].date)+'</text></svg>';
+ el("rankChart").innerHTML=chart+'<div class="legend" style="margin-top:8px"><span><b></b>Your power</span><span class="gold"><b></b>Leader power</span></div>';
+ var first=sn[0],last=sn[sn.length-1],daysApart=Math.round((Date.parse(last.date+"T12:00:00")-Date.parse(first.date+"T12:00:00"))/86400000);
+ if(daysApart<=0){el("rankForecast").innerHTML='<div class="notice">Snapshots need distinct dates for an estimate.</div>';return}
+ var gapStart=num(first.leader)-num(first.power),gapEnd=num(last.leader)-num(last.power),close=(gapStart-gapEnd)/daysApart;
+ var txt=close>0&&gapEnd>0?"Reported gap is closing by "+fmt(close)+"M per day. At the same average net rate, the power gap would reach zero in about "+fmt(Math.ceil(gapEnd/close),0)+" days. This is a rough extrapolation, not a promise or rank prediction.":gapEnd<=0?"Your reported power has reached or exceeded the reported leader's power. Verify actual ranking and combat outcomes.":"The reported power gap is not closing over the selected period. Reassess upgrade efficiency and the leader's rate of growth.";
+ el("rankForecast").innerHTML=note("Trend analysis · "+daysApart+" days",txt);
+}
+function saveSnapshot(form){var f=form.elements,s={id:id(),date:f.date.value,power:num(f.power.value),leader:num(f.leader.value),rank:num(f.rank.value)};if(!s.date||!s.rank)return;data.snapshots=data.snapshots.filter(function(x){return x.date!==s.date});data.snapshots.push(s);data.profile.power=s.power;data.profile.rank=s.rank;data.profile.leader=s.leader;save();renderAll();setPage("ranking")}
+function renderAll(){renderDashboard();renderAccount();renderOps();renderHeroes();renderInventory();renderVS();renderRanking();var f=el("snapshotForm");if(f&&!f.elements.date.value)f.elements.date.value=today()}
+function setPage(p){if(!titles[p])return;page=p;document.querySelectorAll("nav button").forEach(function(b){b.classList.toggle("active",b.dataset.view===p)});document.querySelectorAll(".section").forEach(function(s){s.classList.toggle("active",s.id==="view-"+p)});el("pageTitle").textContent=titles[p][0];el("pageSub").textContent=titles[p][1];window.scrollTo({top:0,behavior:"instant"})}
+function exportData(){var name="lastwar-command-backup-"+today()+".json";var blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},1500)}
+document.addEventListener("click",function(ev){
+ var nav=ev.target.closest("[data-view]");if(nav){setPage(nav.dataset.view);return}
+ var day=ev.target.closest("[data-vs-day]");if(day){vsDay=Number(day.dataset.vsDay);renderVS();return}
+ var b=ev.target.closest("[data-action]");if(!b)return;var action=b.dataset.action,which=b.dataset.id;
+ if(action==="cancel-task"){resetTask();return}
+ if(action==="cancel-hero"){el("heroForm").reset();el("heroForm").elements.id.value="";return}
+ if(action==="edit-task"){var t=data.tasks.find(function(x){return x.id===which});if(t){setPage("operations");setForm(el("taskForm"),t);el("taskForm").scrollIntoView({behavior:"smooth"})}return}
+ if(action==="edit-hero"){var h=data.heroes.find(function(x){return x.id===which});if(h){setPage("heroes");setForm(el("heroForm"),h);el("heroForm").scrollIntoView({behavior:"smooth"})}return}
+ if(action==="delete-task"||action==="delete-hero"||action==="delete-snapshot"){if(!confirm("Delete this saved record?"))return;var bucket=action==="delete-task"?"tasks":action==="delete-hero"?"heroes":"snapshots";data[bucket]=data[bucket].filter(function(x){return x.id!==which});save();renderAll();return}
+ if(action==="export"){exportData();return}
+ if(action==="reset"){if(!confirm("Erase ALL Last War dashboard data on this device? Export a backup first. This cannot be undone."))return;data=init();save();renderAll();setPage("dashboard")}
+});
+document.addEventListener("change",function(ev){
+ var t=ev.target;
+ if(t.dataset.profile){var k=t.dataset.profile;data.profile[k]=t.type==="number"?num(t.value):t.value;save();renderDashboard();renderRanking();return}
+ if(t.dataset.inv){data.inventory[t.dataset.inv]=num(t.value);save();renderInventory();return}
+ if(t.dataset.taskStatus){var item=data.tasks.find(function(x){return x.id===t.dataset.taskStatus});if(item)item.status=t.value;save();renderDashboard();renderOps();return}
+ if(t.dataset.daily!==undefined){data.dailyChecks[today()+":"+t.dataset.daily]=t.checked;save();renderDashboard();return}
+ if(t.dataset.vsCheck!==undefined){data.vsChecks[week()+":"+vsDay+":"+t.dataset.vsCheck]=t.checked;save();renderVS();return}
+ if(t.id==="importFile"){var file=t.files[0];if(!file)return;if(file.size>2000000){alert("Backup file is too large.");t.value="";return}file.text().then(function(raw){var obj=JSON.parse(raw);if(!obj||obj.version!==1||!obj.profile||!Array.isArray(obj.tasks)||!Array.isArray(obj.heroes)||!Array.isArray(obj.snapshots))throw Error("Unsupported backup format");if(!confirm("Replace all data currently stored in this browser with this backup?"))return;data=obj;normalize();save();renderAll();setPage("dashboard");alert("Backup imported successfully.")}).catch(function(e){alert("Could not import backup: "+e.message)}).finally(function(){t.value=""})}
+});
+el("taskForm").addEventListener("submit",function(e){e.preventDefault();saveTask(e.currentTarget)});
+el("heroForm").addEventListener("submit",function(e){e.preventDefault();saveHero(e.currentTarget)});
+el("snapshotForm").addEventListener("submit",function(e){e.preventDefault();saveSnapshot(e.currentTarget)});
+renderAll();setPage("dashboard");save();
+})();
+</script>
+</body>
+</html>
